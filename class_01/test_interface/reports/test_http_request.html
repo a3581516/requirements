@@ -1,0 +1,1385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>前程贷项目接口测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 120%; }
+table       { font-size: 100%; }
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei">前程贷项目接口测试报告</h1>
+<p class='attribute'><strong>测试人员 : </strong> 灰灰的</p>
+<p class='attribute'><strong>开始时间 : </strong> 2019-05-09 21:04:02</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:00:05.059289</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 35，通过 7，失败 18，错误 10，通过率= 20.00%</p>
+
+<p class='description'>用例范围：注册、登录、充值</p>
+</div>
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 20.00% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 18 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 7 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 35 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 16px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>test_add.TestAdd</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',2)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='ft1_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_add_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_1'>失败</button>
+    <div id='div_ft1_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_1'>失败</button>
+    <div id='div_ft1_1' class="collapse in" align="left">
+    <pre>
+    
+ft1_1: 2019-05-09 21:04:02,363 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:02,364 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 1 条,title:正常登录
+2019-05-09 21:04:02,366 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_user：13850600552
+2019-05-09 21:04:02,367 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_pwd：123456
+2019-05-09 21:04:02,368 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"13850600552","pwd":"123456"}
+2019-05-09 21:04:02,498 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'20111' != '10001'
+- 20111
++ 10001
+
+2019-05-09 21:04:02,499 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:02,628 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_add.py", line 52, in test_add
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_add.py", line 46, in test_add
+    self.assertEqual(resp.json()["code"], json.loads(case.expected)["code"])  ###json字符串
+AssertionError: '20111' != '10001'
+- 20111
++ 10001
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_2' class='none'>
+    <td class='failCase'><div class='testcase'>test_add_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_2'>失败</button>
+    <div id='div_ft1_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_2'>失败</button>
+    <div id='div_ft1_2' class="collapse in" align="left">
+    <pre>
+    
+ft1_2: 2019-05-09 21:04:02,648 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:02,649 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 2 条,title:加标
+2019-05-09 21:04:02,649 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_member_id：1201
+2019-05-09 21:04:02,650 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"memberId":"1201","title":"试试人品行不行，借个2W玩玩","amount":20000,"loanRate":"12.0","loanTerm":3,"loanDateType":0,"repaymemtWay":11,"biddingDays":5}
+2019-05-09 21:04:02,772 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是None != '10001'
+2019-05-09 21:04:02,773 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:02,812 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_add.py", line 52, in test_add
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_add.py", line 46, in test_add
+    self.assertEqual(resp.json()["code"], json.loads(case.expected)["code"])  ###json字符串
+AssertionError: None != '10001'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_invest.TestInvest</td>
+    <td class="text-center">7</td>
+    <td class="text-center">0</td>
+    <td class="text-center">3</td>
+    <td class="text-center">4</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',7)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='ft2_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_invest_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_1'>失败</button>
+    <div id='div_ft2_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_1'>失败</button>
+    <div id='div_ft2_1' class="collapse in" align="left">
+    <pre>
+    
+ft2_1: 2019-05-09 21:04:02,977 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:02,978 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 1 条,title:管理员正常登录
+2019-05-09 21:04:02,979 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值admin_user：13850600553
+2019-05-09 21:04:02,981 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值admin_pwd：123456
+2019-05-09 21:04:02,982 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"13850600553","pwd":"123456"}
+{"status":0,"code":"20111","data":null,"msg":"用户名或密码错误"}
+2019-05-09 21:04:03,077 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'20111' != '10001'
+- 20111
++ 10001
+
+2019-05-09 21:04:03,078 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,118 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 63, in test_invest
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 44, in test_invest
+    self.assertEqual(resp.json()["code"], json.loads(case.expected)["code"])  ###json字符串
+AssertionError: '20111' != '10001'
+- 20111
++ 10001
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_2' class='none'>
+    <td class='failCase'><div class='testcase'>test_invest_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_2'>失败</button>
+    <div id='div_ft2_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_2'>失败</button>
+    <div id='div_ft2_2' class="collapse in" align="left">
+    <pre>
+    
+ft2_2: 2019-05-09 21:04:03,119 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,120 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 2 条,title:管理员加标
+2019-05-09 21:04:03,121 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_member_id：1201
+2019-05-09 21:04:03,122 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"memberId":"1201","title":"试试人品行不行，借个2W玩玩","amount":20000,"loanRate":"12.0","loanTerm":3,"loanDateType":0,"repaymemtWay":11,"biddingDays":5}
+{"status":0,"code":null,"data":null,"msg":"抱歉，请先登录。"}
+2019-05-09 21:04:03,221 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是None != '10001'
+2019-05-09 21:04:03,223 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,297 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 63, in test_invest
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 44, in test_invest
+    self.assertEqual(resp.json()["code"], json.loads(case.expected)["code"])  ###json字符串
+AssertionError: None != '10001'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_3' class='none'>
+    <td class='errorCase'><div class='testcase'>test_invest_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_3'>错误</button>
+    <div id='div_ft2_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_3'>错误</button>
+    <div id='div_ft2_3' class="collapse in" align="left">
+    <pre>
+    
+ft2_3: 2019-05-09 21:04:03,300 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,302 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 3 条,title:管理员审核
+2019-05-09 21:04:03,303 - ERROR - line:38 - 读取配置文件 - 日志信息: 配置文件data没有loan_id
+2019-05-09 21:04:03,304 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_id：None
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 37, in test_invest
+    case.data = context.replace(case.data)
+  File "D:\lemon_py\class_01\test_interface\common\context.py", line 49, in replace
+    new_data = re.sub(pattern,repl=value,string=data,count=1)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 192, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 309, in _subx
+    template = _compile_repl(template, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 300, in _compile_repl
+    return sre_parse.parse_template(repl, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 954, in parse_template
+    s = Tokenizer(source)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 228, in __init__
+    string = str(string, 'latin1')
+TypeError: decoding to str: need a bytes-like object, NoneType found
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_4' class='none'>
+    <td class='failCase'><div class='testcase'>test_invest_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_4'>失败</button>
+    <div id='div_ft2_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_4'>失败</button>
+    <div id='div_ft2_4' class="collapse in" align="left">
+    <pre>
+    
+ft2_4: 2019-05-09 21:04:03,335 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,336 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 4 条,title:投资人正常登录
+2019-05-09 21:04:03,337 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_user：13850600552
+2019-05-09 21:04:03,338 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_pwd：123456
+2019-05-09 21:04:03,339 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"13850600552","pwd":"123456"}
+{"status":0,"code":"20111","data":null,"msg":"用户名或密码错误"}
+2019-05-09 21:04:03,403 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'20111' != '10001'
+- 20111
++ 10001
+
+2019-05-09 21:04:03,406 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,465 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 63, in test_invest
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 44, in test_invest
+    self.assertEqual(resp.json()["code"], json.loads(case.expected)["code"])  ###json字符串
+AssertionError: '20111' != '10001'
+- 20111
++ 10001
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test_invest_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_5'>错误</button>
+    <div id='div_ft2_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_5'>错误</button>
+    <div id='div_ft2_5' class="collapse in" align="left">
+    <pre>
+    
+ft2_5: 2019-05-09 21:04:03,466 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,467 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 5 条,title:投资人正常投资
+2019-05-09 21:04:03,468 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_member_id：2011
+2019-05-09 21:04:03,469 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_pwd：123456
+2019-05-09 21:04:03,470 - ERROR - line:38 - 读取配置文件 - 日志信息: 配置文件data没有loan_id
+2019-05-09 21:04:03,470 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_id：None
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 37, in test_invest
+    case.data = context.replace(case.data)
+  File "D:\lemon_py\class_01\test_interface\common\context.py", line 49, in replace
+    new_data = re.sub(pattern,repl=value,string=data,count=1)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 192, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 309, in _subx
+    template = _compile_repl(template, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 300, in _compile_repl
+    return sre_parse.parse_template(repl, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 954, in parse_template
+    s = Tokenizer(source)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 228, in __init__
+    string = str(string, 'latin1')
+TypeError: decoding to str: need a bytes-like object, NoneType found
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test_invest_6</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_6'>错误</button>
+    <div id='div_ft2_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_6'>错误</button>
+    <div id='div_ft2_6' class="collapse in" align="left">
+    <pre>
+    
+ft2_6: 2019-05-09 21:04:03,472 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,473 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 6 条,title:投资人投资不输入金额
+2019-05-09 21:04:03,473 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_member_id：2011
+2019-05-09 21:04:03,474 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_pwd：123456
+2019-05-09 21:04:03,475 - ERROR - line:38 - 读取配置文件 - 日志信息: 配置文件data没有loan_id
+2019-05-09 21:04:03,476 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_id：None
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 37, in test_invest
+    case.data = context.replace(case.data)
+  File "D:\lemon_py\class_01\test_interface\common\context.py", line 49, in replace
+    new_data = re.sub(pattern,repl=value,string=data,count=1)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 192, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 309, in _subx
+    template = _compile_repl(template, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 300, in _compile_repl
+    return sre_parse.parse_template(repl, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 954, in parse_template
+    s = Tokenizer(source)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 228, in __init__
+    string = str(string, 'latin1')
+TypeError: decoding to str: need a bytes-like object, NoneType found
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_7' class='none'>
+    <td class='errorCase'><div class='testcase'>test_invest_7</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_7'>错误</button>
+    <div id='div_ft2_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_7'>错误</button>
+    <div id='div_ft2_7' class="collapse in" align="left">
+    <pre>
+    
+ft2_7: 2019-05-09 21:04:03,477 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,478 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 7 条,title:投资人投资输入负数
+2019-05-09 21:04:03,479 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_member_id：2011
+2019-05-09 21:04:03,480 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值normal_pwd：123456
+2019-05-09 21:04:03,481 - ERROR - line:38 - 读取配置文件 - 日志信息: 配置文件data没有loan_id
+2019-05-09 21:04:03,482 - INFO - line:36 - 读取配置文件 - 日志信息: 参数化的值loan_id：None
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_invest.py", line 37, in test_invest
+    case.data = context.replace(case.data)
+  File "D:\lemon_py\class_01\test_interface\common\context.py", line 49, in replace
+    new_data = re.sub(pattern,repl=value,string=data,count=1)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 192, in sub
+    return _compile(pattern, flags).sub(repl, string, count)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 309, in _subx
+    template = _compile_repl(template, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\re.py", line 300, in _compile_repl
+    return sre_parse.parse_template(repl, pattern)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 954, in parse_template
+    s = Tokenizer(source)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\sre_parse.py", line 228, in __init__
+    string = str(string, 'latin1')
+TypeError: decoding to str: need a bytes-like object, NoneType found
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_login.TestLogin</td>
+    <td class="text-center">5</td>
+    <td class="text-center">5</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',5)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_1'>通过</button>
+    <div id='div_pt3_1' class="collapse in" align="left">
+    <pre>
+    
+pt3_1: 2019-05-09 21:04:03,486 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,486 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行的是第 1 条用例
+2019-05-09 21:04:03,487 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"15810447878","pwd":"123456"}
+2019-05-09 21:04:03,573 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,616 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_2'>通过</button>
+    <div id='div_pt3_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_2'>通过</button>
+    <div id='div_pt3_2' class="collapse in" align="left">
+    <pre>
+    
+pt3_2: 2019-05-09 21:04:03,617 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,618 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行的是第 2 条用例
+2019-05-09 21:04:03,619 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"13850600555","pwd":"123456"}
+2019-05-09 21:04:03,698 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,778 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_3'>通过</button>
+    <div id='div_pt3_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_3'>通过</button>
+    <div id='div_pt3_3' class="collapse in" align="left">
+    <pre>
+    
+pt3_3: 2019-05-09 21:04:03,779 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,780 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行的是第 3 条用例
+2019-05-09 21:04:03,781 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"15810447878","pwd":"098786"}
+2019-05-09 21:04:03,864 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:03,904 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_4'>通过</button>
+    <div id='div_pt3_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_4'>通过</button>
+    <div id='div_pt3_4' class="collapse in" align="left">
+    <pre>
+    
+pt3_4: 2019-05-09 21:04:03,905 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:03,906 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行的是第 4 条用例
+2019-05-09 21:04:03,907 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"15810447878","pwd":""}
+2019-05-09 21:04:04,002 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:04,074 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt3_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt3_5'>通过</button>
+    <div id='div_pt3_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt3_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt3_5'>通过</button>
+    <div id='div_pt3_5' class="collapse in" align="left">
+    <pre>
+    
+pt3_5: 2019-05-09 21:04:04,075 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,076 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行的是第 5 条用例
+2019-05-09 21:04:04,077 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"","pwd":"123456"}
+2019-05-09 21:04:04,156 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:04,195 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_recharge.TestRecharge</td>
+    <td class="text-center">14</td>
+    <td class="text-center">0</td>
+    <td class="text-center">12</td>
+    <td class="text-center">2</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',14)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='ft4_1' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_01</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_1'>失败</button>
+    <div id='div_ft4_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_1'>失败</button>
+    <div id='div_ft4_1' class="collapse in" align="left">
+    <pre>
+    
+ft4_1: 2019-05-09 21:04:04,350 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,352 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 1 条,title:登录
+2019-05-09 21:04:04,354 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone":"13850600551","pwd":"123456"}
+2019-05-09 21:04:04,503 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '登录成功'
+- 抱歉，请先登录。
++ 登录成功
+
+2019-05-09 21:04:04,505 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:04,572 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '登录成功'
+- 抱歉，请先登录。
++ 登录成功
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_2' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_02</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_2'>错误</button>
+    <div id='div_ft4_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_2'>错误</button>
+    <div id='div_ft4_2' class="collapse in" align="left">
+    <pre>
+    
+ft4_2: 2019-05-09 21:04:04,573 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,575 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 2 条,title:登录成功，充值成功
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 33, in test_recharge
+    print('before是:',member['leaveamount'])
+TypeError: 'NoneType' object is not subscriptable
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_3' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_03</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_3'>失败</button>
+    <div id='div_ft4_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_3'>失败</button>
+    <div id='div_ft4_3' class="collapse in" align="left">
+    <pre>
+    
+ft4_3: 2019-05-09 21:04:04,636 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,639 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 3 条,title:未注册的用户
+2019-05-09 21:04:04,642 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850601234", "amount": "1000"}
+2019-05-09 21:04:04,732 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '此手机号对应的会员不存在'
+- 抱歉，请先登录。
++ 此手机号对应的会员不存在
+
+2019-05-09 21:04:04,734 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:04,789 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '此手机号对应的会员不存在'
+- 抱歉，请先登录。
++ 此手机号对应的会员不存在
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_4' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_04</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_4'>失败</button>
+    <div id='div_ft4_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_4'>失败</button>
+    <div id='div_ft4_4' class="collapse in" align="left">
+    <pre>
+    
+ft4_4: 2019-05-09 21:04:04,790 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,791 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 4 条,title:手机号码格式不正确
+2019-05-09 21:04:04,792 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "888888888", "amount": "1000"}
+2019-05-09 21:04:04,891 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '手机号码格式不正确'
+- 抱歉，请先登录。
++ 手机号码格式不正确
+
+2019-05-09 21:04:04,894 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:04,960 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '手机号码格式不正确'
+- 抱歉，请先登录。
++ 手机号码格式不正确
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_5' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_05</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_5'>失败</button>
+    <div id='div_ft4_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_5'>失败</button>
+    <div id='div_ft4_5' class="collapse in" align="left">
+    <pre>
+    
+ft4_5: 2019-05-09 21:04:04,962 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:04,963 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 5 条,title:手机号为空
+2019-05-09 21:04:04,964 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "", "amount": "1000"}
+2019-05-09 21:04:05,054 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '手机号不能为空'
+- 抱歉，请先登录。
++ 手机号不能为空
+
+2019-05-09 21:04:05,055 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:05,095 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '手机号不能为空'
+- 抱歉，请先登录。
++ 手机号不能为空
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_6' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_06</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_6'>失败</button>
+    <div id='div_ft4_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_6'>失败</button>
+    <div id='div_ft4_6' class="collapse in" align="left">
+    <pre>
+    
+ft4_6: 2019-05-09 21:04:05,097 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:05,097 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 6 条,title:金额为空
+2019-05-09 21:04:05,098 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": ""}
+2019-05-09 21:04:05,202 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '请输入金额'
+- 抱歉，请先登录。
++ 请输入金额
+
+2019-05-09 21:04:05,204 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:05,260 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '请输入金额'
+- 抱歉，请先登录。
++ 请输入金额
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_7' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_07</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_7'>失败</button>
+    <div id='div_ft4_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_7'>失败</button>
+    <div id='div_ft4_7' class="collapse in" align="left">
+    <pre>
+    
+ft4_7: 2019-05-09 21:04:05,262 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:05,263 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 7 条,title:金额等于50万
+2019-05-09 21:04:05,264 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "500000"}
+2019-05-09 21:04:05,362 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+2019-05-09 21:04:05,364 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:05,426 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_8' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_08</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_8'>失败</button>
+    <div id='div_ft4_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_8'>失败</button>
+    <div id='div_ft4_8' class="collapse in" align="left">
+    <pre>
+    
+ft4_8: 2019-05-09 21:04:05,427 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:05,428 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 8 条,title:金额为0
+2019-05-09 21:04:05,429 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "0"}
+2019-05-09 21:04:05,530 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+2019-05-09 21:04:05,532 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:05,610 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_9' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_09</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_9' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_9'>失败</button>
+    <div id='div_ft4_9' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_9' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_9'>失败</button>
+    <div id='div_ft4_9' class="collapse in" align="left">
+    <pre>
+    
+ft4_9: 2019-05-09 21:04:05,612 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:05,612 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 9 条,title:金额大于50万
+2019-05-09 21:04:05,613 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "500001"}
+2019-05-09 21:04:05,729 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '请输入范围在0到50万之间的正数金额'
+- 抱歉，请先登录。
++ 请输入范围在0到50万之间的正数金额
+
+2019-05-09 21:04:05,732 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:05,803 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '请输入范围在0到50万之间的正数金额'
+- 抱歉，请先登录。
++ 请输入范围在0到50万之间的正数金额
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_10' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_10</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_10' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_10'>失败</button>
+    <div id='div_ft4_10' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_10' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_10'>失败</button>
+    <div id='div_ft4_10' class="collapse in" align="left">
+    <pre>
+    
+ft4_10: 2019-05-09 21:04:05,805 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:05,806 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 10 条,title:金额为3位小数
+2019-05-09 21:04:05,807 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "100.123"}
+2019-05-09 21:04:05,940 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '输入金额的金额小数不能超过两位'
+- 抱歉，请先登录。
++ 输入金额的金额小数不能超过两位
+
+2019-05-09 21:04:05,943 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:06,025 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '输入金额的金额小数不能超过两位'
+- 抱歉，请先登录。
++ 输入金额的金额小数不能超过两位
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_11' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_11</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_11' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_11'>失败</button>
+    <div id='div_ft4_11' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_11' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_11'>失败</button>
+    <div id='div_ft4_11' class="collapse in" align="left">
+    <pre>
+    
+ft4_11: 2019-05-09 21:04:06,027 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:06,027 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 11 条,title:金额为负
+2019-05-09 21:04:06,028 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "-1"}
+2019-05-09 21:04:06,160 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '请输入范围在0到50万之间的正数金额'
+- 抱歉，请先登录。
++ 请输入范围在0到50万之间的正数金额
+
+2019-05-09 21:04:06,162 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:06,236 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '请输入范围在0到50万之间的正数金额'
+- 抱歉，请先登录。
++ 请输入范围在0到50万之间的正数金额
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_12' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_12</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_12' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_12'>失败</button>
+    <div id='div_ft4_12' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_12' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_12'>失败</button>
+    <div id='div_ft4_12' class="collapse in" align="left">
+    <pre>
+    
+ft4_12: 2019-05-09 21:04:06,238 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:06,239 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 12 条,title:登陆成功，充值其他账号失败
+2019-05-09 21:04:06,240 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "1000"}
+2019-05-09 21:04:06,348 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+2019-05-09 21:04:06,349 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:06,390 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '充值成功'
+- 抱歉，请先登录。
++ 充值成功
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_13' class='none'>
+    <td class='failCase'><div class='testcase'>test_recharge_13</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_13' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_13'>失败</button>
+    <div id='div_ft4_13' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_13' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_13'>失败</button>
+    <div id='div_ft4_13' class="collapse in" align="left">
+    <pre>
+    
+ft4_13: 2019-05-09 21:04:06,392 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:06,393 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 13 条,title:金额输入非数字字符
+2019-05-09 21:04:06,394 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "amount": "fuck"}
+2019-05-09 21:04:06,544 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'抱歉，请先登录。' != '请输入数字'
+- 抱歉，请先登录。
++ 请输入数字
+
+2019-05-09 21:04:06,545 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:06,610 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 58, in test_recharge
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 40, in test_recharge
+    self.assertEqual(resp.json()["msg"], json.loads(case.expected)["msg"])  ###json字符串
+AssertionError: '抱歉，请先登录。' != '请输入数字'
+- 抱歉，请先登录。
++ 请输入数字
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft4_14' class='none'>
+    <td class='errorCase'><div class='testcase'>test_recharge_14</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft4_14' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft4_14'>错误</button>
+    <div id='div_ft4_14' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft4_14' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft4_14'>错误</button>
+    <div id='div_ft4_14' class="collapse in" align="left">
+    <pre>
+    
+ft4_14: 2019-05-09 21:04:06,611 - INFO - line:36 - 前程贷接口测试 - 日志信息: ---------------------------------------------------
+2019-05-09 21:04:06,612 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 None 条,title:None
+2019-05-09 21:04:06,613 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：None
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_recharge.py", line 37, in test_recharge
+    resp = self.http_request2.request(url=case.url, method=case.method, data=case.data)
+  File "D:\lemon_py\class_01\test_interface\common\http_request.py", line 40, in request
+    method = method.upper()
+AttributeError: 'NoneType' object has no attribute 'upper'
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_register.TestRegister</td>
+    <td class="text-center">7</td>
+    <td class="text-center">2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">4</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',7)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='ft5_1' class='none'>
+    <td class='errorCase'><div class='testcase'>test_register_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_1'>错误</button>
+    <div id='div_ft5_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_1'>错误</button>
+    <div id='div_ft5_1' class="collapse in" align="left">
+    <pre>
+    
+ft5_1: 2019-05-09 21:04:06,616 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:06,617 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 1 条,title:注册成功
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 43, in test_register
+    new_num = (self.mydb.get_one('SELECT * FROM future.member m WHERE m.`mobilephone` = 13850600552')['mobilephone'])
+TypeError: 'NoneType' object is not subscriptable
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_2' class='none'>
+    <td class='errorCase'><div class='testcase'>test_register_2</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse in" align="left">
+    <pre>
+    
+ft5_2: 2019-05-09 21:04:06,719 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:06,721 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 2 条,title:密码为空，注册失败
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 43, in test_register
+    new_num = (self.mydb.get_one('SELECT * FROM future.member m WHERE m.`mobilephone` = 13850600552')['mobilephone'])
+TypeError: 'NoneType' object is not subscriptable
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_3</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_3'>通过</button>
+    <div id='div_pt5_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_3'>通过</button>
+    <div id='div_pt5_3' class="collapse in" align="left">
+    <pre>
+    
+pt5_3: 2019-05-09 21:04:06,787 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:06,789 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 3 条,title:手机号码为空，注册失败
+2019-05-09 21:04:06,791 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "", "pwd": "123456"}
+2019-05-09 21:04:06,884 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:06,934 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_4' class='none'>
+    <td class='failCase'><div class='testcase'>test_register_4</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_4'>失败</button>
+    <div id='div_ft5_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_4'>失败</button>
+    <div id='div_ft5_4' class="collapse in" align="left">
+    <pre>
+    
+ft5_4: 2019-05-09 21:04:06,935 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:06,936 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 4 条,title:重复注册
+2019-05-09 21:04:06,936 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "13850600551", "pwd": "123456"}
+2019-05-09 21:04:07,027 - ERROR - line:38 - 前程贷接口测试 - 日志信息: 断言出错，出错信息是'{"status":1,"code":"10001","data":null,"msg":"注册成功"}' != '{"status":0,"code":"20110","data":null,"msg":"手机号码已被注册"}'
+- {"status":1,"code":"10001","data":null,"msg":"注册成功"}
+?           ^           ---                       --
++ {"status":0,"code":"20110","data":null,"msg":"手机号码已被注册"}
+?           ^         +++                       ++++++
+
+2019-05-09 21:04:07,029 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:07,096 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 58, in test_register
+    raise e
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 51, in test_register
+    self.assertEqual(resp.text,case.expected)
+AssertionError: '{"status":1,"code":"10001","data":null,"msg":"注册成功"}' != '{"status":0,"code":"20110","data":null,"msg":"手机号码已被注册"}'
+- {"status":1,"code":"10001","data":null,"msg":"注册成功"}
+?           ^           ---                       --
++ {"status":0,"code":"20110","data":null,"msg":"手机号码已被注册"}
+?           ^         +++                       ++++++
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test_register_5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_5'>错误</button>
+    <div id='div_ft5_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_5'>错误</button>
+    <div id='div_ft5_5' class="collapse in" align="left">
+    <pre>
+    
+ft5_5: 2019-05-09 21:04:07,098 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:07,100 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 5 条,title:密码长度必须为 6~18，边界19位
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 43, in test_register
+    new_num = (self.mydb.get_one('SELECT * FROM future.member m WHERE m.`mobilephone` = 13850600552')['mobilephone'])
+TypeError: 'NoneType' object is not subscriptable
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test_register_6</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_6'>错误</button>
+    <div id='div_ft5_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_6'>错误</button>
+    <div id='div_ft5_6' class="collapse in" align="left">
+    <pre>
+    
+ft5_6: 2019-05-09 21:04:07,167 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:07,168 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 6 条,title:密码长度必须为 6~18，边界5位
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\ddt.py", line 145, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\lemon_py\class_01\test_interface\testcases\test_register.py", line 43, in test_register
+    new_num = (self.mydb.get_one('SELECT * FROM future.member m WHERE m.`mobilephone` = 13850600552')['mobilephone'])
+TypeError: 'NoneType' object is not subscriptable
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_register_7</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_7'>通过</button>
+    <div id='div_pt5_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_7'>通过</button>
+    <div id='div_pt5_7' class="collapse in" align="left">
+    <pre>
+    
+pt5_7: 2019-05-09 21:04:07,220 - INFO - line:36 - 前程贷接口测试 - 日志信息: -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2019-05-09 21:04:07,222 - INFO - line:36 - 前程贷接口测试 - 日志信息: 现在执行第 7 条,title:手机号码格式不正确
+2019-05-09 21:04:07,223 - INFO - line:36 - 前程贷接口测试 - 日志信息: 请求的参数是：{"mobilephone": "88888", "pwd": "123458"}
+2019-05-09 21:04:07,309 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************开始写入数据*******************
+2019-05-09 21:04:07,370 - INFO - line:36 - 前程贷接口测试 - 日志信息: *******************结束写入数据*******************
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>35</td>
+    <td>7</td>
+    <td>18</td>
+    <td>10</td>
+    <td>通过率：20.00%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+</body>
+</html>
