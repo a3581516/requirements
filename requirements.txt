@@ -4,7 +4,7 @@ chardet==3.0.4
 client==0.0.1
 configparser==3.7.3
 ddt==1.2.1
-Django==2.0.13
+Django==2.2.13
 et-xmlfile==1.0.1
 future==0.17.1
 get==2018.11.19
